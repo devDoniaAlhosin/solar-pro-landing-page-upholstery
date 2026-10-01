@@ -1,0 +1,214 @@
+/* =====================================================================
+   EDIT HERE — everything the client will want to change lives in this block
+   ===================================================================== */
+const WHATSAPP = "20100000000";            // رقم واتساب بالصيغة الدولية بدون + (مثال: 201001234567)
+
+const SOCIAL = [                            // ضع رابط كل حساب. احذف السطر لإخفاء الأيقونة.
+  {label:'تيك توك',  icon:'i-tt',    url:'https://www.tiktok.com/@solarpro.sa'},
+  {label:'سناب شات', icon:'i-snap',  url:'https://www.snapchat.com/@solarpro.sa'},
+  {label:'إنستغرام', icon:'i-insta', url:'https://www.instagram.com/solarpro.sa/'},
+  {label:'إكس',      icon:'i-x',     url:'https://x.com/solarpro_sa'},
+  {label:'فيسبوك',   icon:'i-fb',    url:'https://www.facebook.com/solarpro.sa'},
+];
+
+const BRANDS = [                            // الماركات — أضف ماركة: {id, name, logo:'path/to/logo.svg'}
+  {id:'ford', name:'فورد', logo:'ford.svg'},
+  {id:'landrover', name:'لاند روفر', logo:'../Defender.svg', mono:true, ar:'1.91'},
+  {id:'cadillac', name:'كاديلاك', logo:'../Cadillac.svg', mono:true, ar:'1'},
+];
+
+const PARTS = [                             // الجزء الذي تم تنجيده
+  {id:'seats',    name:'المقاعد'},
+  {id:'headrest', name:'مساند الرأس'},
+  {id:'doors',    name:'لوحات الأبواب'},
+  {id:'console',  name:'الكونسول ومسند الذراع'},
+  {id:'roof',     name:'السقف'},
+  {id:'wheel',    name:'عجلة القيادة'},
+  {id:'cabin',    name:'المقصورة كاملة'},
+];
+
+const PATTERNS = [
+  {name:'ألماس',  icon:'i-diamond'},
+  {name:'سادة',   icon:'i-plain'},
+  {name:'مربعات', icon:'i-squares'},
+];
+
+const COLORS = [
+  {id:'black',    name:'أسود',        hex:'#1c1c1f'},
+  {id:'charcoal', name:'رمادي فحمي',  hex:'#555a63'},
+  {id:'navy',     name:'كحلي',        hex:'#27406b'},
+  {id:'olive',    name:'زيتي',        hex:'#51633f'},
+  {id:'brown',    name:'بني',         hex:'#68412a'},
+  {id:'cognac',   name:'عسلي',        hex:'#b86a2a'},
+  {id:'sand',     name:'بيج',         hex:'#d2bc99'},
+  {id:'ivory',    name:'عاجي',        hex:'#efe6d3'},
+  {id:'red',      name:'أحمر',        hex:'#c4161c'},
+];
+
+const FINISHES = [
+  {id:'matte',  name:'مطفي',  note:'هادئ'},
+  {id:'smooth', name:'ناعم',  note:'متوازن'},
+  {id:'glossy', name:'لامع',  note:'لمعة واضحة'},
+];
+
+const PRESETS = [                           // تصاميم جاهزة في ورشة التصميم
+  {name:'كلاسيك', pattern:0, body:'black',    insert:'cognac', finish:'smooth'},
+  {name:'سبورت',  pattern:2, body:'black',    insert:'red',    finish:'matte'},
+  {name:'فاخر',   pattern:0, body:'brown',    insert:'ivory',  finish:'smooth'},
+  {name:'عصري',   pattern:1, body:'charcoal', insert:'sand',   finish:'glossy'},
+];
+
+/* المشاريع: كل سيارة مشروع، ولها عدة زوايا (JOBS) قبل/بعد.
+   brand: معرّف الماركة من BRANDS · car: الموديل · story: وصف قصير للمشروع (اختياري) · year: اختياري */
+const shot = p => encodeURI(p);
+const PROJECTS = [
+  {id:'ford-mustang', brand:'ford', car:'موستنج',
+   story:'انتقلت المقصورة من جلد أسود مع بيج متعب إلى جلد أحمر كامل على المقاعد ومساند الرأس، مع تغليف جديد لعجلة القيادة بخياطة حمراء.'},
+  {id:'defender', brand:'landrover', car:'ديفندر',
+   story:'تنجيد المقصورة بجلد أزرق فاتح على المقاعد والأبواب وعجلة القيادة، مع وسط مخرّم وخياطة متباينة.'},
+  {id:'cadillac-ct6', brand:'cadillac', car:'CT6',
+   story:'تنجيد عاجي للمقاعد الأمامية والخلفية، مع لوحة باب بجلد كحلي وعاجي، وتغليف عجلة القيادة بجلد عاجي.'},
+];
+
+/* الزوايا قبل/بعد. project: معرّف المشروع · part: الجزء · title: اسم الزاوية
+   before / after: صورتا قبل وبعد · focus: نقطة التركيز عند القص (مثال '50% 40%')
+   note: ما تم عمله · color + pattern: اختياريان لزر "جرّب هذا اللون في الاستوديو" */
+const JOBS = [
+  {project:'ford-mustang', part:'seats',    title:'المقاعد الأمامية', before:IMG.front_b,  after:IMG.front_a,  focus:'50% 50%', color:'red', pattern:1,
+   note:'استبدال الأسود والبيج بجلد أحمر كامل، مع وسط مخرّم وخياطة متناسقة.'},
+  {project:'ford-mustang', part:'seats',    title:'مقعد السائق',      before:IMG.driver_b, after:IMG.driver_a, focus:'50% 55%', color:'red', pattern:1,
+   note:'إعادة تنجيد كاملة بعد تلف الجلد وظهور الإسفنج.'},
+  {project:'ford-mustang', part:'headrest', title:'مسند الرأس',       before:IMG.head_b,   after:IMG.head_a,   focus:'50% 38%', color:'red', pattern:1,
+   note:'مسند رأس جديد بجلد أحمر وخياطة دقيقة بدل الجلد المتشقق.'},
+  {project:'ford-mustang', part:'wheel',    title:'عجلة القيادة',     before:IMG.wheel_b,  after:IMG.wheel_a,  focus:'50% 46%',
+   note:'تغليف جديد بجلد أسود مع خياطة حمراء متناسقة مع المقاعد.'},
+  {project:'ford-mustang', part:'seats', title:'المقاعد الخلفية', color:'red', pattern:1,
+   before:shot('upholdestry/ford/Rear Seats/Ford-Mustang-Rear-Seats-Before.png'),
+   after:shot('upholdestry/ford/Rear Seats/Ford-Mustang-Rear-Seats-After.jpg'),
+   note:'تنجيد المقاعد الخلفية بجلد أحمر مع وسط مخرّم وخياطة متناسقة مع الأمام.'},
+  {project:'defender', part:'cabin', title:'المقصورة الأمامية',
+   before:shot('upholdestry/Defender - Land Rover/Interior Front/Land-Rover-Defender-Interior-Front-Before.png'),
+   after:shot('upholdestry/Defender - Land Rover/Interior Front/Land-Rover-Defender-Interior-Front-After.jpg'),
+   note:'تنجيد المقصورة الأمامية بجلد أزرق فاتح على المقعد والمقود ولوحة القيادة.'},
+  {project:'defender', part:'cabin', title:'جهة الراكب',
+   before:shot('upholdestry/Defender - Land Rover/Passenger Side/Defender-Passenger-Side-Before.png'),
+   after:shot('upholdestry/Defender - Land Rover/Passenger Side/Defender-Passenger-Side-After.jpg'),
+   note:'مقعد الراكب ولوحة القيادة بجلد أزرق فاتح مع وسط مخرّم.'},
+  {project:'defender', part:'doors', title:'لوحة الباب',
+   before:shot('upholdestry/Defender - Land Rover/Door Panel/Land-Rover-Defender-Door-Panel-Before.png'),
+   after:shot('upholdestry/Defender - Land Rover/Door Panel/Land-Rover-Defender-Door-Panel-After.jpg'),
+   note:'كسوة علوية ومسند ذراع للباب بجلد أزرق فاتح.'},
+  {project:'defender', part:'seats', title:'المقاعد الخلفية',
+   before:shot('upholdestry/Defender - Land Rover/Rear seats/Rear Seats – Before.png'),
+   after:shot('upholdestry/Defender - Land Rover/Rear seats/Rear Seats – After.jpg'),
+   note:'تنجيد المقاعد الخلفية بجلد أزرق فاتح مع وسط مخرّم ومساند رأس متناسقة.'},
+  {project:'defender', part:'cabin', title:'المقصورة الخلفية',
+   before:shot('upholdestry/Defender - Land Rover/rear cabin/Rear Cabin – Before.png'),
+   after:shot('upholdestry/Defender - Land Rover/rear cabin/Rear Cabin – After.jpg'),
+   note:'ظهر المقاعد الأمامية والمقاعد الخلفية بجلد أزرق فاتح.'},
+  {project:'defender', part:'wheel', title:'عجلة القيادة',
+   before:shot('upholdestry/Defender - Land Rover/Wheel/and-Rover-Defender-Steering-Wheel-Before.png'),
+   after:shot('upholdestry/Defender - Land Rover/Wheel/Land-Rover-Defender-Steering-Wheel-After.jpg'),
+   note:'تغليف المقود بجلد أزرق فاتح مع خياطة داكنة على الحافة.'},
+  {project:'cadillac-ct6', part:'seats', title:'المقاعد الأمامية', color:'ivory',
+   before:shot('upholdestry/Cadillac-CT6/Front Seats/Cadillac-CT6-Front-Seats-Before.png'),
+   after:shot('upholdestry/Cadillac-CT6/Front Seats/Cadillac-CT6-Front-Seats-After.jpg'),
+   note:'تنجيد المقاعد الأمامية بجلد عاجي مع وسط مخرّم وخياطة دقيقة.'},
+  {project:'cadillac-ct6', part:'seats', title:'المقاعد الخلفية', color:'ivory',
+   before:shot('upholdestry/Cadillac-CT6/Rear Seats/Cadillac-CT6-Rear-Seats-Before.png'),
+   after:shot('upholdestry/Cadillac-CT6/Rear Seats/Cadillac-CT6-Rear-Seats-After.jpg'),
+   note:'تنجيد المقاعد الخلفية بجلد عاجي متناسق مع المقاعد الأمامية.'},
+  {project:'cadillac-ct6', part:'cabin', title:'المقصورة', color:'ivory',
+   before:shot('upholdestry/Cadillac-CT6/Interior/Cadillac-CT6-Interior-Before.png'),
+   after:shot('upholdestry/Cadillac-CT6/Interior/Cadillac-CT6-Interior-After.jpg'),
+   note:'ظهر المقاعد الأمامية بجلد عاجي مع جيوب ومساند رأس متناسقة.'},
+  {project:'cadillac-ct6', part:'doors', title:'لوحة الباب',
+   before:shot('upholdestry/Cadillac-CT6/Door Panel/Cadillac-CT6-Door-Panel-Before.png'),
+   after:shot('upholdestry/Cadillac-CT6/Door Panel/Cadillac-CT6-Door-Panel-After.jpg'),
+   note:'لوحة الباب بجلد كحلي في الأعلى وعاجي في الأسفل مع خياطة فاتحة.'},
+  {project:'cadillac-ct6', part:'wheel', title:'عجلة القيادة', color:'ivory',
+   before:shot('upholdestry/Cadillac-CT6/Wheel/Cadillac-CT6-Steering-Wheel-Before.png'),
+   after:shot('upholdestry/Cadillac-CT6/Wheel/Cadillac-CT6-Steering-Wheel-After.jpg'),
+   note:'تغليف المقود بجلد عاجي مع خياطة فاتحة على الحافة.'},
+];
+/* =====================================================================
+   STUDIO — interior configurator (steps like a car builder, one screen)
+   ===================================================================== */
+const ICOL = [                              // ألوان الجلد
+  {id:'red',      name:'أحمر',       hex:'#cf443c'},
+  {id:'black',    name:'أسود',       hex:'#1c1c1f'},
+  {id:'charcoal', name:'رمادي فحمي', hex:'#4d525a'},
+  {id:'navy',     name:'كحلي',       hex:'#27406b'},
+  {id:'olive',    name:'زيتي',       hex:'#51633f'},
+  {id:'brown',    name:'بني',        hex:'#68412a'},
+  {id:'cognac',   name:'عسلي',       hex:'#b86a2a'},
+  {id:'sand',     name:'بيج',        hex:'#d2bc99'},
+  {id:'ivory',    name:'عاجي',       hex:'#efe6d3'},
+  {id:'burgundy', name:'نبيذي',      hex:'#6e1a26'},
+];
+const PAL = {
+  leather: ICOL,
+  wheel: [
+    {id:'black',    name:'أسود',       hex:'#2a2a2c'}, ...ICOL.filter(c => !['black','red'].includes(c.id)), {id:'red', name:'أحمر', hex:'#b3202a'},
+  ],
+  thread: [
+    {id:'red',    name:'أحمر',    hex:'#b3333a'},
+    {id:'black',  name:'أسود',    hex:'#161616'},
+    {id:'white',  name:'أبيض',    hex:'#f3f3f1'},
+    {id:'ivory',  name:'عاجي',    hex:'#e8dcc0'},
+    {id:'gold',   name:'ذهبي',    hex:'#d4a63a'},
+    {id:'orange', name:'برتقالي', hex:'#e8721c'},
+    {id:'blue',   name:'أزرق',    hex:'#2f6bd1'},
+    {id:'gray',   name:'رمادي',   hex:'#8a8d93'},
+  ],
+  roof: [
+    {id:'charcoal', name:'رمادي داكن', hex:'#4a403d'},
+    {id:'black',    name:'أسود',       hex:'#1b1b1e'},
+    {id:'sand',     name:'بيج',        hex:'#cdb99a'},
+    {id:'ivory',    name:'عاجي',       hex:'#e8e0cf'},
+    {id:'silver',   name:'رمادي فاتح', hex:'#a9a9ad'},
+    {id:'brown',    name:'بني',        hex:'#6e5a4a'},
+    {id:'navy',     name:'كحلي',       hex:'#2b3550'},
+    {id:'burgundy', name:'نبيذي',      hex:'#5a2430'},
+  ],
+};
+const DESC = {
+  red:'أحمر نابض كما في موستنج التي أنجزناها. يمنح المقصورة طابعًا رياضيًا واضحًا.',
+  black:'أسود عميق يمنح المقصورة هدوءًا وفخامة، ويناسب الاستخدام اليومي.',
+  charcoal:'رمادي فحمي متوازن، أخفّ من الأسود وأكثر حيادية.',
+  navy:'كحلي داكن بطابع رسمي هادئ، يظهر لونه بوضوح في الضوء الطبيعي.',
+  olive:'زيتي ترابي مميّز يعطي المقصورة طابعًا جريئًا وغير مألوف.',
+  brown:'بني غني يقرّب المقصورة من الطابع الكلاسيكي الدافئ.',
+  cognac:'عسلي دافئ يلمع تحت الضوء، من أشهر ألوان الجلد الفاخر.',
+  sand:'بيج رملي هادئ يفتح المقصورة ويمنحها إحساسًا بالاتساع.',
+  ivory:'عاجي ناعم يرفع إضاءة المقصورة، ويحتاج عناية أكثر من الألوان الداكنة.',
+  burgundy:'نبيذي عميق يجمع بين الجرأة والفخامة.',
+  white:'أبيض نظيف يبرز خطوط الخياطة بوضوح.',
+  gold:'ذهبي يضيف لمسة فخامة دقيقة على الحواف.',
+  orange:'برتقالي حيوي يخلق تباينًا جريئًا مع الجلد الداكن.',
+  blue:'أزرق رياضي يلفت النظر إلى تفاصيل الخياطة.',
+  gray:'رمادي هادئ يعطي خياطة متناسقة دون تباين حاد.',
+  silver:'رمادي فاتح يجعل السقف أخفّ ويزيد إحساس الاتساع.',
+};
+/* hot: [أفقي, رأسي] موضع النقطة على صورة المقعد، نسب مئوية.
+   view 'A' = المقصورة ، view 'B' = المقود. */
+const STEPS = [
+  {id:'seats', name:'المقاعد',                  parts:['A:seats','B:seatB'], view:'A', pal:'leather', def:'red',      hot:[52,76]},
+  {id:'heads', name:'مساند الرأس',              parts:['A:heads'],           view:'A', pal:'leather', def:'match',    hot:[66,27], match:true},
+  {id:'doors', name:'لوحات الأبواب',            parts:['A:doors'],           view:'A', pal:'leather', def:'match',    hot:[13,41], match:true},
+  {id:'arm',   name:'مسند الذراع والكونسول',    parts:['A:arm'],             view:'A', pal:'leather', def:'match',    hot:[38,52], match:true},
+  {id:'roof',  name:'سقف السيارة',              parts:['A:roof'],            view:'A', pal:'roof',    def:'charcoal', hot:[30,9]},
+  {id:'wheel', name:'عجلة القيادة',             parts:['B:wheel'],           view:'B', pal:'wheel',   def:'black',    hot:[10,56]},
+  {id:'thread',name:'الخياطة',                  parts:['B:thread'],          view:'B', pal:'thread',  def:'red',      hot:[31,75]},
+];
+const SUMMARY = STEPS.length;               // آخر خطوة = الملخص
+const PRICES = {};                          // اختياري: {'seats:cognac': 1500} → يظهر السعر أعلى اللوحة
+const CURRENCY = 'ر.س';
+const GM = 205;                             // متوسط تدرج الصور المحايدة
+const PRESETS_I = [
+  {name:'كلاسيك', c:{seats:'cognac',  heads:'match', doors:'match', arm:'match', roof:'sand',     wheel:'brown', thread:'ivory'}},
+  {name:'سبورت',  c:{seats:'black',   heads:'red',   doors:'red',   arm:'red',   roof:'black',    wheel:'black', thread:'red'}},
+  {name:'فاخر',   c:{seats:'ivory',   heads:'match', doors:'brown', arm:'brown', roof:'sand',     wheel:'brown', thread:'gold'}},
+  {name:'عصري',   c:{seats:'charcoal',heads:'match', doors:'match', arm:'match', roof:'charcoal', wheel:'black', thread:'white'}},
+];
+/* ===================================================================== */
