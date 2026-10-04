@@ -5,11 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Solar Pro | تنجيد سيارات فاخر</title>
 <meta name="description" content="أعمال تنجيد سيارات حقيقية قبل وبعد، وصمّم كرسيك بنفسك بالنقشة واللون والخامة.">
-<script>(function(){var d=document.documentElement;d.classList.add('js');d.setAttribute('data-theme','dark');try{var q=new URLSearchParams(location.search).get('lang'),g=q||localStorage.getItem('sp-lang');if(g==='en'){d.lang='en';d.dir='ltr'}}catch(e){}})();</script>
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var q=new URLSearchParams(location.search).get('lang'),g=q||localStorage.getItem('sp-lang');if(g==='en'){d.lang='en';d.dir='ltr'}}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/seat.css">
+<link rel="stylesheet" href="css/chrome.css">
+<link rel="stylesheet" href="css/hero.css">
+<link rel="stylesheet" href="css/works.css">
+<link rel="stylesheet" href="css/viewer.css">
+<link rel="stylesheet" href="css/studio.css">
+<link rel="stylesheet" href="css/footer.css">
+<link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
 
@@ -58,7 +66,7 @@
         <a href="#work">أعمالنا</a>
         <a href="#design">صمّم مقصورتك</a>
       </nav>
-      <button class="ibtn theme only-m" type="button" aria-label="التبديل إلى الوضع الفاتح"><svg class="i moon"><use href="#i-moon"/></svg><svg class="i sun"><use href="#i-sun"/></svg></button>
+      <button class="ibtn theme only-m" type="button" aria-label="التبديل إلى الوضع الداكن"><svg class="i moon"><use href="#i-moon"/></svg><svg class="i sun"><use href="#i-sun"/></svg></button>
       <div class="lang only-m" data-on="ar" role="group" aria-label="اللغة"><button type="button" data-l="ar" aria-pressed="true" lang="ar">عربي</button><button type="button" data-l="en" aria-pressed="false" lang="en">EN</button></div>
     </div>
     <a class="brand" href="#top" aria-label="Solar Pro">
@@ -102,7 +110,7 @@
             </label>
           </div>
         </div>
-        <div class="pname"><span class="dot" id="hDot"></span><b id="hName"></b><small id="hPatName"></small></div>
+        <div class="pname"><span class="dot" id="hDot"></span><b id="hName"></b><small id="hPatName"></small><span class="cycle" aria-hidden="true"><i></i></span></div>
       </aside>
       <div class="hero-seat" id="heroSeat">
         <div class="glow" aria-hidden="true"></div>
@@ -138,18 +146,18 @@
 <!-- ================= STUDIO ================= -->
 <section class="studio" id="design" aria-labelledby="h-design">
   <div class="wrap">
-    <div class="studio-top rv">
-      <h2 id="h-design">صمّم مقصورتك <mark>خطوة بخطوة</mark></h2>
-      <p>اختر الجزء ثم اللون، وشاهد المقصورة تتغيّر أمامك.</p>
-    </div>
     <div class="studio-grid">
       <div class="viewer" id="viewer">
         <div class="vframe" id="vframe"></div>
-        <div class="vpre" id="vpre"></div>
         <div class="vtabs" id="vtabs" role="group" aria-label="زاوية العرض"></div>
         <button class="fsbtn" type="button" id="fsBtn" aria-label="عرض بملء الشاشة"><svg class="i" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
       </div>
       <div class="vpanel" id="vpanel">
+        <div class="studio-top rv">
+          <h2 id="h-design">صمّم مقصورتك <mark>خطوة بخطوة</mark></h2>
+          <p class="sub">اختر الجزء ثم اللون، وشاهد المقصورة تتغيّر أمامك.</p>
+        </div>
+        <div class="vpre" id="vpre"></div>
         <div id="studioSteps">
           <div class="opt-head"><h3 id="oName"></h3><div class="oprice" id="oPrice" hidden></div></div>
           <p class="odesc" id="oDesc"></p>
@@ -162,6 +170,7 @@
           <div class="matchrow" id="matchRow" hidden></div>
           <div class="swgrid" id="swGrid" role="radiogroup"></div>
         </div>
+        <aside class="pickboard" id="pickBoard" aria-label="اختياراتك"></aside>
         <div class="studio-result" id="studioResult" hidden>
           <p class="eyebrow"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>تصميمك</p>
           <h2>اختياراتك النهائية</h2>
@@ -244,6 +253,11 @@
 <script src="js/photos.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/content.js"></script>
-<script src="js/app.js"></script>
+<script src="js/util.js"></script>
+<script src="js/hero.js"></script>
+<script src="js/works.js"></script>
+<script src="js/viewer.js"></script>
+<script src="js/studio.js"></script>
+<script src="js/boot.js"></script>
 </body>
 </html>
