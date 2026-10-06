@@ -8,6 +8,8 @@
 .works .sec-copy{display:flex;flex-direction:column;align-items:center}
 .works .sec-head .eyebrow{justify-content:center;margin-bottom:10px}
 .works .sec-head h2,.works .sec-head p{text-align:center;margin-inline:auto}
+.works .sec-head h2 mark{color:#fff}
+.works .sec-head h2 mark::before{background:var(--red)}
 .sec-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:14px 40px;margin-bottom:18px}
 .sec-head h2{text-wrap:balance;font:700 clamp(1.7rem,2.7vw,2.5rem)/1.6 var(--display)}
 .sec-head p,.subline{margin:8px 0 0;color:var(--muted);max-width:36em;font-size:1.05rem;font-weight:500}
@@ -41,6 +43,11 @@
 .bmark{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--text);color:var(--bg);font-size:.85rem;font-weight:700}
 .pbrand{height:40px;width:auto;max-width:120px;object-fit:contain}
 .pbrand.mono{height:36px}
+.chip .blogo.lexus{height:16px;max-width:96px}
+.pbrand.lexus{height:26px;max-width:150px}
+.blogo.lexus,.pbrand.lexus{filter:brightness(0)}
+:root[data-theme="dark"] .blogo.lexus,
+:root[data-theme="dark"] .pbrand.lexus{filter:brightness(0) invert(1)}
 .studio-result{display:flex;flex-direction:column;gap:12px;min-height:0}
 .studio-result[hidden]{display:none!important}
 .studio-result .eyebrow{margin-bottom:0}

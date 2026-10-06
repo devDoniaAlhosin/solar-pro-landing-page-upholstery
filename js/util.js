@@ -4,11 +4,11 @@ const $$ = (s, r=document) => [...r.querySelectorAll(s)];
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const coarse = matchMedia('(hover: none)').matches;
 const ar = n => LANG === 'en' ? String(n) : Number(n).toLocaleString('ar-EG', {useGrouping:false});
-const colorOf = id => COLORS.find(c => c.id === id);
+const colorOf = id => COLORS.find(c => c.id === id) || CARD_COLORS.find(c => c.id === id);
 const brandOf = id => BRANDS.find(b => b.id === id) || {id, name:id};
 const brandMark = (b, cls) => b.mono
-  ? `<span class="${cls} mono" style="--ar:${b.ar};--ink:${b.ink || 'currentColor'};-webkit-mask:url('${b.logo}') center/contain no-repeat;mask:url('${b.logo}') center/contain no-repeat"></span>`
-  : `<img class="${cls}" src="${b.logo}" alt="">`;
+  ? `<span class="${cls} mono${b.mark ? ' ' + b.mark : ''}" style="--ar:${b.ar};--ink:${b.ink || 'currentColor'};-webkit-mask:url('${b.logo}') center/contain no-repeat;mask:url('${b.logo}') center/contain no-repeat"></span>`
+  : `<img class="${cls}${b.mark ? ' ' + b.mark : ''}" src="${b.logo}" alt="">`;
 const projOf  = id => PROJECTS.find(p => p.id === id);
 const plural  = n => LANG === 'en' ? (n === 1 ? '1 angle' : `${n} angles`) : (n === 1 ? 'زاوية واحدة' : n === 2 ? 'زاويتان' : n <= 10 ? `${ar(n)} زوايا` : `${ar(n)} زاوية`);
 const bc = (br, pr) => `${t(br.name)} ${t(pr.car)}`;           // اسم الماركة + الموديل

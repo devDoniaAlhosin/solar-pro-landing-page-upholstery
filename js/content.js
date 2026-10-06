@@ -5,7 +5,7 @@
    assets/brand/   logos, paths from the page (assets/brand/ford.svg).
    assets/work/    before/after photos, one folder per project id.
    js/content.js   brands, colors, projects, and gallery shots.
-   js/i18n.js      English strings. js/photos.js is embedded shots.
+   js/i18n.js      English strings. Work photos are .webp files in assets/work (same name, no old extension).
    js/util.js      shared helpers. js/hero.js, js/works.js, js/viewer.js, js/studio.js, js/boot.js are behavior.
    ===================================================================== */
 const WHATSAPP = "20100000000";            // رقم واتساب بالصيغة الدولية بدون + (مثال: 201001234567)
@@ -22,6 +22,7 @@ const BRANDS = [                            // الماركات — أضف ما�
   {id:'ford', name:'فورد', logo:'assets/brand/ford.svg'},
   {id:'landrover', name:'لاند روفر', logo:'assets/brand/defender.svg'},
   {id:'cadillac', name:'كاديلاك', logo:'assets/brand/cadillac.svg'},
+  {id:'lexus', name:'لكزس', logo:'assets/brand/Lexus-Logo.svg', mark:'lexus'},
 ];
 
 const PARTS = [                             // الجزء الذي تم تنجيده
@@ -51,6 +52,9 @@ const COLORS = [
   {id:'ivory',    name:'عاجي',        hex:'#efe6d3'},
   {id:'red',      name:'أحمر',        hex:'#c4161c'},
 ];
+const CARD_COLORS = [                      // ألوان تظهر على بطاقة العمل فقط
+  {id:'baby', name:'أزرق فاتح', hex:'#7ec8e3'},
+];
 
 const FINISHES = [
   {id:'matte',  name:'مطفي',  note:'هادئ'},
@@ -67,7 +71,7 @@ const PRESETS = [                           // تصاميم جاهزة في ور
 
 /* المشاريع: كل سيارة مشروع، ولها عدة زوايا (JOBS) قبل/بعد.
    brand: معرّف الماركة من BRANDS · car: الموديل · story: وصف قصير للمشروع (اختياري) · year: اختياري */
-const shot = p => encodeURI(p);
+const shot = p => encodeURI(p.replace(/\.(png|jpe?g|webp)$/i, '') + '.webp');
 const PROJECTS = [
   {id:'ford-mustang', brand:'ford', car:'موستنج',
    story:'انتقلت المقصورة من جلد أسود مع بيج متعب إلى جلد أحمر كامل على المقاعد ومساند الرأس، مع تغليف جديد لعجلة القيادة بخياطة حمراء.'},
@@ -75,68 +79,94 @@ const PROJECTS = [
    story:'تنجيد المقصورة بجلد أزرق فاتح على المقاعد والأبواب وعجلة القيادة، مع وسط مخرّم وخياطة متباينة.'},
   {id:'cadillac-ct6', brand:'cadillac', car:'CT6',
    story:'تنجيد عاجي للمقاعد الأمامية والخلفية، مع لوحة باب بجلد كحلي وعاجي، وتغليف عجلة القيادة بجلد عاجي.'},
+  {id:'lexus-lx', brand:'lexus', car:'LX',
+   story:'تنجيد مقصورة لكزس LX: المقاعد الخلفية، المقصورة الأمامية والخلفية، ولوحة الباب.'},
 ];
 
 /* الزوايا قبل/بعد. project: معرّف المشروع · part: الجزء · title: اسم الزاوية
    before / after: صورتا قبل وبعد · focus: نقطة التركيز عند القص (مثال '50% 40%')
    note: ما تم عمله · color + pattern: اختياريان لزر "جرّب هذا اللون في الاستوديو" */
 const JOBS = [
-  {project:'ford-mustang', part:'seats',    title:'المقاعد الأمامية', before:IMG.front_b,  after:IMG.front_a,  focus:'50% 50%', color:'red', pattern:1,
+  {project:'ford-mustang', part:'seats',    title:'المقاعد الأمامية', focus:'50% 50%', color:'red', pattern:1,
+   before:shot('assets/work/ford-mustang/Front Seats/Ford-Mustang-Front-Seats-Before'),
+   after:shot('assets/work/ford-mustang/Front Seats/Ford-Mustang-Front-Seats-After'),
    note:'استبدال الأسود والبيج بجلد أحمر كامل، مع وسط مخرّم وخياطة متناسقة.'},
-  {project:'ford-mustang', part:'seats',    title:'مقعد السائق',      before:IMG.driver_b, after:IMG.driver_a, focus:'50% 55%', color:'red', pattern:1,
+  {project:'ford-mustang', part:'seats',    title:'مقعد السائق', focus:'50% 55%', color:'red', pattern:1,
+   before:shot('assets/work/ford-mustang/driver seat/Ford-Mustang-Driver-Seat-Before'),
+   after:shot('assets/work/ford-mustang/driver seat/Ford-Mustang-Driver-Seat-After'),
    note:'إعادة تنجيد كاملة بعد تلف الجلد وظهور الإسفنج.'},
-  {project:'ford-mustang', part:'headrest', title:'مسند الرأس',       before:IMG.head_b,   after:IMG.head_a,   focus:'50% 38%', color:'red', pattern:1,
+  {project:'ford-mustang', part:'headrest', title:'مسند الرأس', focus:'50% 38%', color:'red', pattern:1,
+   before:shot('assets/work/ford-mustang/Headrest/Ford-Mustang-Headrest-Before'),
+   after:shot('assets/work/ford-mustang/Headrest/Ford-Mustang-Headrest-after'),
    note:'مسند رأس جديد بجلد أحمر وخياطة دقيقة بدل الجلد المتشقق.'},
-  {project:'ford-mustang', part:'wheel',    title:'عجلة القيادة',     before:IMG.wheel_b,  after:IMG.wheel_a,  focus:'50% 46%',
+  {project:'ford-mustang', part:'wheel',    title:'عجلة القيادة', focus:'50% 46%',
+   before:shot('assets/work/ford-mustang/wheel/Ford-Mustang-Steering-Wheel-Before'),
+   after:shot('assets/work/ford-mustang/wheel/Ford-Mustang-Steering-Wheel-After'),
    note:'تغليف جديد بجلد أسود مع خياطة حمراء متناسقة مع المقاعد.'},
   {project:'ford-mustang', part:'seats', title:'المقاعد الخلفية', color:'red', pattern:1,
-   before:shot('assets/work/ford-mustang/Rear Seats/Ford-Mustang-Rear-Seats-Before.png'),
-   after:shot('assets/work/ford-mustang/Rear Seats/Ford-Mustang-Rear-Seats-After.jpg'),
+   before:shot('assets/work/ford-mustang/Rear Seats/Ford-Mustang-Rear-Seats-Before'),
+   after:shot('assets/work/ford-mustang/Rear Seats/Ford-Mustang-Rear-Seats-After'),
    note:'تنجيد المقاعد الخلفية بجلد أحمر مع وسط مخرّم وخياطة متناسقة مع الأمام.'},
-  {project:'defender', part:'cabin', title:'المقصورة الأمامية',
-   before:shot('assets/work/defender/Interior Front/Land-Rover-Defender-Interior-Front-Before.png'),
-   after:shot('assets/work/defender/Interior Front/Land-Rover-Defender-Interior-Front-After.jpg'),
+  {project:'defender', part:'cabin', title:'المقصورة الأمامية', color:'baby',
+   before:shot('assets/work/defender/Interior Front/Land-Rover-Defender-Interior-Front-Before'),
+   after:shot('assets/work/defender/Interior Front/Land-Rover-Defender-Interior-Front-After'),
    note:'تنجيد المقصورة الأمامية بجلد أزرق فاتح على المقعد والمقود ولوحة القيادة.'},
-  {project:'defender', part:'cabin', title:'جهة الراكب',
-   before:shot('assets/work/defender/Passenger Side/Defender-Passenger-Side-Before.png'),
-   after:shot('assets/work/defender/Passenger Side/Defender-Passenger-Side-After.jpg'),
+  {project:'defender', part:'cabin', title:'جهة الراكب', color:'baby',
+   before:shot('assets/work/defender/Passenger Side/Defender-Passenger-Side-Before'),
+   after:shot('assets/work/defender/Passenger Side/Defender-Passenger-Side-After'),
    note:'مقعد الراكب ولوحة القيادة بجلد أزرق فاتح مع وسط مخرّم.'},
-  {project:'defender', part:'doors', title:'لوحة الباب',
-   before:shot('assets/work/defender/Door Panel/Land-Rover-Defender-Door-Panel-Before.png'),
-   after:shot('assets/work/defender/Door Panel/Land-Rover-Defender-Door-Panel-After.jpg'),
+  {project:'defender', part:'doors', title:'لوحة الباب', color:'baby',
+   before:shot('assets/work/defender/Door Panel/Land-Rover-Defender-Door-Panel-Before'),
+   after:shot('assets/work/defender/Door Panel/Land-Rover-Defender-Door-Panel-After'),
    note:'كسوة علوية ومسند ذراع للباب بجلد أزرق فاتح.'},
-  {project:'defender', part:'seats', title:'المقاعد الخلفية',
-   before:shot('assets/work/defender/Rear seats/Rear Seats – Before.png'),
-   after:shot('assets/work/defender/Rear seats/Rear Seats – After.jpg'),
+  {project:'defender', part:'seats', title:'المقاعد الخلفية', color:'baby',
+   before:shot('assets/work/defender/Rear seats/Rear Seats – Before'),
+   after:shot('assets/work/defender/Rear seats/Rear Seats – After'),
    note:'تنجيد المقاعد الخلفية بجلد أزرق فاتح مع وسط مخرّم ومساند رأس متناسقة.'},
-  {project:'defender', part:'cabin', title:'المقصورة الخلفية',
-   before:shot('assets/work/defender/rear cabin/Rear Cabin – Before.png'),
-   after:shot('assets/work/defender/rear cabin/Rear Cabin – After.jpg'),
+  {project:'defender', part:'cabin', title:'المقصورة الخلفية', color:'baby',
+   before:shot('assets/work/defender/rear cabin/Rear Cabin – Before'),
+   after:shot('assets/work/defender/rear cabin/Rear Cabin – After'),
    note:'ظهر المقاعد الأمامية والمقاعد الخلفية بجلد أزرق فاتح.'},
-  {project:'defender', part:'wheel', title:'عجلة القيادة',
-   before:shot('assets/work/defender/Wheel/and-Rover-Defender-Steering-Wheel-Before.png'),
-   after:shot('assets/work/defender/Wheel/Land-Rover-Defender-Steering-Wheel-After.jpg'),
-   note:'تغليف المقود بجلد أزرق فاتح مع خياطة داكنة على الحافة.'},
+  {project:'defender', part:'cabin', title:'مقصورة السائق', color:'baby',
+   before:shot('assets/work/defender/Driver Cockpit/Land-Rover-Defender-Driver-Side-Interior-Before'),
+   after:shot('assets/work/defender/Driver Cockpit/Land-Rover-Defender-Driver-Side-Interior-After'),
+   note:'تنجيد مقصورة السائق بجلد أزرق فاتح على المقعد ولوحة القيادة والمقود.'},
   {project:'cadillac-ct6', part:'seats', title:'المقاعد الأمامية', color:'ivory',
-   before:shot('assets/work/cadillac-ct6/Front Seats/Cadillac-CT6-Front-Seats-Before.png'),
-   after:shot('assets/work/cadillac-ct6/Front Seats/Cadillac-CT6-Front-Seats-After.jpg'),
+   before:shot('assets/work/cadillac-ct6/Front Seats/Cadillac-CT6-Front-Seats-Before'),
+   after:shot('assets/work/cadillac-ct6/Front Seats/Cadillac-CT6-Front-Seats-After'),
    note:'تنجيد المقاعد الأمامية بجلد عاجي مع وسط مخرّم وخياطة دقيقة.'},
   {project:'cadillac-ct6', part:'seats', title:'المقاعد الخلفية', color:'ivory',
-   before:shot('assets/work/cadillac-ct6/Rear Seats/Cadillac-CT6-Rear-Seats-Before.png'),
-   after:shot('assets/work/cadillac-ct6/Rear Seats/Cadillac-CT6-Rear-Seats-After.jpg'),
+   before:shot('assets/work/cadillac-ct6/Rear Seats/Cadillac-CT6-Rear-Seats-Before'),
+   after:shot('assets/work/cadillac-ct6/Rear Seats/Cadillac-CT6-Rear-Seats-After'),
    note:'تنجيد المقاعد الخلفية بجلد عاجي متناسق مع المقاعد الأمامية.'},
   {project:'cadillac-ct6', part:'cabin', title:'المقصورة', color:'ivory',
-   before:shot('assets/work/cadillac-ct6/Interior/Cadillac-CT6-Interior-Before.png'),
-   after:shot('assets/work/cadillac-ct6/Interior/Cadillac-CT6-Interior-After.jpg'),
+   before:shot('assets/work/cadillac-ct6/Interior/Cadillac-CT6-Interior-Before'),
+   after:shot('assets/work/cadillac-ct6/Interior/Cadillac-CT6-Interior-After'),
    note:'ظهر المقاعد الأمامية بجلد عاجي مع جيوب ومساند رأس متناسقة.'},
   {project:'cadillac-ct6', part:'doors', title:'لوحة الباب',
-   before:shot('assets/work/cadillac-ct6/Door Panel/Cadillac-CT6-Door-Panel-Before.png'),
-   after:shot('assets/work/cadillac-ct6/Door Panel/Cadillac-CT6-Door-Panel-After.jpg'),
+   before:shot('assets/work/cadillac-ct6/Door Panel/Cadillac-CT6-Door-Panel-Before'),
+   after:shot('assets/work/cadillac-ct6/Door Panel/Cadillac-CT6-Door-Panel-After'),
    note:'لوحة الباب بجلد كحلي في الأعلى وعاجي في الأسفل مع خياطة فاتحة.'},
   {project:'cadillac-ct6', part:'wheel', title:'عجلة القيادة', color:'ivory',
-   before:shot('assets/work/cadillac-ct6/Wheel/Cadillac-CT6-Steering-Wheel-Before.png'),
-   after:shot('assets/work/cadillac-ct6/Wheel/Cadillac-CT6-Steering-Wheel-After.jpg'),
+   before:shot('assets/work/cadillac-ct6/Wheel/Cadillac-CT6-Steering-Wheel-Before'),
+   after:shot('assets/work/cadillac-ct6/Wheel/Cadillac-CT6-Steering-Wheel-After'),
    note:'تغليف المقود بجلد عاجي مع خياطة فاتحة على الحافة.'},
+  {project:'lexus-lx', part:'cabin', title:'المقصورة الأمامية',
+   before:shot('assets/work/lexus-lx/Interior Front/Lexus-Front-Interior-Before'),
+   after:shot('assets/work/lexus-lx/Interior Front/Lexus-Front-Interior-After'),
+   note:'تنجيد المقصورة الأمامية.'},
+  {project:'lexus-lx', part:'doors', title:'لوحة الباب',
+   before:shot('assets/work/lexus-lx/Door Panel/Lexus-Door-Panel-Before'),
+   after:shot('assets/work/lexus-lx/Door Panel/Lexus-Door-Panel-After'),
+   note:'تنجيد لوحة الباب بجلد متناسق مع المقصورة.'},
+  {project:'lexus-lx', part:'seats', title:'المقاعد الخلفية',
+   before:shot('assets/work/lexus-lx/Rear seats/Lexus-LX-Rear-Seats-Before'),
+   after:shot('assets/work/lexus-lx/Rear seats/Lexus-LX-Rear-Seats-After'),
+   note:'تنجيد المقاعد الخلفية مع مساند رأس متناسقة.'},
+  {project:'lexus-lx', part:'cabin', title:'المقصورة الخلفية',
+   before:shot('assets/work/lexus-lx/rear cabin/Lexus-LX-Rear-Cabin-Before'),
+   after:shot('assets/work/lexus-lx/rear cabin/Lexus-LX-Rear-Cabin-After'),
+   note:'تنجيد المقصورة الخلفية بجلد متناسق مع المقاعد.'},
 ];
 /* =====================================================================
    STUDIO — interior configurator (steps like a car builder, one screen)
